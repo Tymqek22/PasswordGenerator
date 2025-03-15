@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PasswordGenerator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label x:Name="LabelToSee" Height="50" Width="100"></Label>
+        Title="Password Generator" Height="300" Width="400">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0" Name="PasswordBox" IsReadOnly="True" FontSize="14" Padding="5" HorizontalAlignment="Stretch" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,0">
+            <TextBlock Text="Password Length:" VerticalAlignment="Center"/>
+            <TextBox Name="LengthInput" Width="50" Margin="10,0,0,0" Text="12"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
+            <CheckBox Name="IncludeUppercase" Content="Include Uppercase Letters" IsChecked="True"/>
+            <CheckBox Name="IncludeLowercase" Content="Include Lowercase Letters" IsChecked="True"/>
+            <CheckBox Name="IncludeDigits" Content="Include Digits" IsChecked="True"/>
+            <CheckBox Name="IncludeSpecialCharacters" Content="Include Special Characters" IsChecked="True"/>
+        </StackPanel>
+
+        <Button Grid.Row="6" Content="Generate Password" Padding="5" Margin="0,10,0,0" Height="40" FontSize="14"/>
     </Grid>
 </Window>

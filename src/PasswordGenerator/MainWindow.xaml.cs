@@ -20,13 +20,6 @@ namespace PasswordGenerator
         public MainWindow()
         {
             InitializeComponent();
-
-			var label = new Class1()
-			{
-				Password = "123456Test"
-			};
-
-			LabelToSee.Content = label.Password;
 		}
     }
 }
