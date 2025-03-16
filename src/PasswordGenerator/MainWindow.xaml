@@ -17,20 +17,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Name="PasswordBox" IsReadOnly="True" FontSize="14" Padding="5" HorizontalAlignment="Stretch" />
+        <TextBox Grid.Row="0" Text="{Binding GeneratedPassword, Mode=OneWay}" Name="PasswordBox" IsReadOnly="True" FontSize="14" Padding="5" HorizontalAlignment="Stretch" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,0">
             <TextBlock Text="Password Length:" VerticalAlignment="Center"/>
-            <TextBox Name="LengthInput" Width="50" Margin="10,0,0,0" Text="12"/>
+            <TextBox Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="10,0,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
-            <CheckBox Name="IncludeUppercase" Content="Include Uppercase Letters" IsChecked="True"/>
-            <CheckBox Name="IncludeLowercase" Content="Include Lowercase Letters" IsChecked="True"/>
-            <CheckBox Name="IncludeDigits" Content="Include Digits" IsChecked="True"/>
-            <CheckBox Name="IncludeSpecialCharacters" Content="Include Special Characters" IsChecked="True"/>
+            <CheckBox Content="Include Uppercase Letters" IsChecked="{Binding UseUppercase, Mode=TwoWay}"/>
+            <CheckBox Content="Include Lowercase Letters" IsChecked="{Binding UseLowercase, Mode=TwoWay}"/>
+            <CheckBox Content="Include Digits" IsChecked="{Binding UseDigits, Mode=TwoWay}"/>
+            <CheckBox Content="Include Special Characters" IsChecked="{Binding UseSpecialCharacters, Mode=TwoWay}"/>
         </StackPanel>
 
-        <Button Grid.Row="6" Content="Generate Password" Padding="5" Margin="0,10,0,0" Height="40" FontSize="14"/>
+        <Button Grid.Row="6" Command="{Binding GeneratePasswordCommand}" Content="Generate Password" Padding="5" Margin="0,10,0,0" Height="40" FontSize="14"/>
     </Grid>
 </Window>

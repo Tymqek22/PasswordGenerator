@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Domain;
+using PasswordGenerator.ViewModels;
 
 namespace PasswordGenerator
 {
@@ -20,6 +21,7 @@ namespace PasswordGenerator
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new PasswordViewModel();
 		}
     }
 }

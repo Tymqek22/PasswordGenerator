@@ -5,8 +5,8 @@ namespace Domain
 	public class Password
 	{
 		public int Length { get; set; }
-		public bool UseUpperCase { get; set; }
-		public bool UseLowerCase { get; set; }
+		public bool UseUppercase { get; set; }
+		public bool UseLowercase { get; set; }
 		public bool UseDigits { get; set; }
 		public bool UseSpecialCharacters { get; set; }
 		public string? GeneratedPassword { get; set; }
@@ -25,10 +25,10 @@ namespace Domain
 
 			for (int i = 0; i < 5; i++) {
 
-				if (this.UseUpperCase) {
+				if (this.UseUppercase) {
 					charactersBase.Append(uppercase[rand.Next(uppercase.Length)]);
 				}
-				if (this.UseLowerCase) {
+				if (this.UseLowercase) {
 					charactersBase.Append(lowercase[rand.Next(lowercase.Length)]);
 				}
 				if (this.UseDigits) {
