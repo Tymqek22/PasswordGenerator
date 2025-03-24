@@ -113,7 +113,12 @@ namespace PasswordGenerator.ViewModels
 
 		public void GeneratePassword()
 		{
-			_password.GeneratePassword();
+			do {
+				_password.GeneratePassword();
+			}
+			while (_password.HasTooManyDuplicatedChars(_password.GeneratedPassword) ||
+			_password.HasDuplicatedNeighbourChars(_password.GeneratedPassword));
+			
 			this.OnPropertyChanged(nameof(GeneratedPassword));
 		}
 	}

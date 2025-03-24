@@ -23,20 +23,17 @@ namespace PasswordGenerator.Models
 
 			StringBuilder charactersBase = new();
 
-			for (int i = 0; i < 5; i++) {
-
-				if (this.UseUppercase) {
-					charactersBase.Append(uppercase[rand.Next(uppercase.Length)]);
-				}
-				if (this.UseLowercase) {
-					charactersBase.Append(lowercase[rand.Next(lowercase.Length)]);
-				}
-				if (this.UseDigits) {
-					charactersBase.Append(digits[rand.Next(digits.Length)]);
-				}
-				if (this.UseSpecialCharacters) {
-					charactersBase.Append(special[rand.Next(special.Length)]);
-				}
+			if (this.UseUppercase) {
+				charactersBase.Append(uppercase);
+			}
+			if (this.UseLowercase) {
+				charactersBase.Append(lowercase);
+			}
+			if (this.UseDigits) {
+				charactersBase.Append(digits);
+			}
+			if (this.UseSpecialCharacters) {
+				charactersBase.Append(special);
 			}
 
 			for (int i = 0; i < this.Length; i++) {
@@ -45,6 +42,54 @@ namespace PasswordGenerator.Models
 			}
 
 			this.GeneratedPassword = generatedPassword.ToString();
+		}
+
+		public bool HasTooManyDuplicatedChars(string password)
+		{
+			var passwordList = password.ToList();
+
+			var duplicatesCount = passwordList
+				.GroupBy(c => c)
+				.Select(grp => grp.Count())
+				.ToList();
+
+			if (password.Length >= 8 && password.Length <= 16) {
+
+				return duplicatesCount.Any(c => c >= 3);
+			}
+			else if (password.Length > 16 && password.Length <= 20) {
+
+				return duplicatesCount.Any(c => c >= 4);
+			}
+			else if (password.Length > 20 && password.Length <= 30) {
+
+				return duplicatesCount.Any(c => c >= 5);
+			}
+			else if (password.Length > 30 && password.Length <= 40) {
+
+				return duplicatesCount.Any(c => c >= 6);
+			}
+			else if (password.Length > 40 && password.Length <= 50) {
+
+				return duplicatesCount.Any(c => c >= 7);
+			}
+
+			return true;
+		}
+
+		public bool HasDuplicatedNeighbourChars(string password)
+		{
+			char earlierChar = password[0];
+
+			for (int i = 1; i < password.Length; i++) {
+
+				if (earlierChar == password[i]) {
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 
