@@ -1,28 +1,32 @@
-﻿using Domain;
-using PasswordGenerator.Commands;
+﻿using PasswordGenerator.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PasswordGenerator.Models;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace PasswordGenerator.ViewModels
 {
-	public class PasswordViewModel : INotifyPropertyChanged
+	public class PasswordViewModel : ViewModelBase
 	{
 		private Password _password;
 
 		public PasswordViewModel()
 		{
 			_password = new Password();
-			GeneratePasswordCommand = new RelayCommand(GeneratePassword, () => true);
+			GeneratePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => { return true; });
 		}
 
 		public int Length
 		{
-			get { return _password.Length; }
+			get 
+			{ 
+				return _password.Length; 
+			}
 			set 
 			{ 
 				_password.Length = value; 
@@ -32,7 +36,10 @@ namespace PasswordGenerator.ViewModels
 
 		public bool UseUppercase
 		{
-			get { return _password.UseUppercase; }
+			get 
+			{ 
+				return _password.UseUppercase; 
+			}
 			set 
 			{ 
 				_password.UseUppercase = value; 
@@ -42,7 +49,10 @@ namespace PasswordGenerator.ViewModels
 
 		public bool UseLowercase
 		{
-			get { return _password.UseLowercase; }
+			get 
+			{ 
+				return _password.UseLowercase; 
+			}
 			set 
 			{ 
 				_password.UseLowercase = value; 
@@ -52,7 +62,10 @@ namespace PasswordGenerator.ViewModels
 
 		public bool UseDigits
 		{
-			get { return _password.UseDigits; }
+			get 
+			{ 
+				return _password.UseDigits; 
+			}
 			set 
 			{ 
 				_password.UseDigits = value; 
@@ -62,7 +75,10 @@ namespace PasswordGenerator.ViewModels
 
 		public bool UseSpecialCharacters
 		{
-			get { return _password.UseSpecialCharacters; }
+			get 
+			{ 
+				return _password.UseSpecialCharacters; 
+			}
 			set 
 			{ 
 				_password.UseSpecialCharacters = value; 
@@ -72,7 +88,10 @@ namespace PasswordGenerator.ViewModels
 
 		public string? GeneratedPassword
 		{
-			get { return _password.GeneratedPassword; }
+			get 
+			{ 
+				return _password.GeneratedPassword; 
+			}
 			private set 
 			{
 				_password.GeneratedPassword = value; 
@@ -86,13 +105,6 @@ namespace PasswordGenerator.ViewModels
 		{
 			_password.GeneratePassword();
 			this.OnPropertyChanged(nameof(GeneratedPassword));
-		}
-
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }
