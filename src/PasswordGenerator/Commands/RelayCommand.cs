@@ -9,8 +9,6 @@ namespace PasswordGenerator.Commands
 {
 	class RelayCommand : ICommand
 	{
-		public event EventHandler? CanExecuteChanged;
-
 		private readonly Action<object> _execute;
 		private readonly Func<object,bool> _canExecute;
 
@@ -18,6 +16,12 @@ namespace PasswordGenerator.Commands
 		{
 			_execute = execute;
 			_canExecute = canExecute;
+		}
+
+		public event EventHandler? CanExecuteChanged
+		{
+			add { CommandManager.RequerySuggested += value; }
+			remove { CommandManager.RequerySuggested -= value; }
 		}
 
 		public bool CanExecute(object parameter)

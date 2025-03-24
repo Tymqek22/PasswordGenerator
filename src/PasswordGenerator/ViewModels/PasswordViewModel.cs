@@ -14,11 +14,16 @@ namespace PasswordGenerator.ViewModels
 	public class PasswordViewModel : ViewModelBase
 	{
 		private Password _password;
+		private RelayCommand _generatePasswordCommand;
 
 		public PasswordViewModel()
 		{
 			_password = new Password();
-			GeneratePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => { return true; });
+			_generatePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => 
+			{
+				return (UseUppercase || UseLowercase || UseDigits || UseSpecialCharacters) &&
+				(Length > 0);
+			});
 		}
 
 		public int Length
@@ -30,7 +35,8 @@ namespace PasswordGenerator.ViewModels
 			set 
 			{ 
 				_password.Length = value; 
-				this.OnPropertyChanged(nameof(Length)); 
+				this.OnPropertyChanged(nameof(Length));
+				CommandManager.InvalidateRequerySuggested();
 			}
 		}
 
@@ -43,7 +49,8 @@ namespace PasswordGenerator.ViewModels
 			set 
 			{ 
 				_password.UseUppercase = value; 
-				this.OnPropertyChanged(nameof(UseUppercase)); 
+				this.OnPropertyChanged(nameof(UseUppercase));
+				CommandManager.InvalidateRequerySuggested();
 			}
 		}
 
@@ -56,7 +63,8 @@ namespace PasswordGenerator.ViewModels
 			set 
 			{ 
 				_password.UseLowercase = value; 
-				this.OnPropertyChanged(nameof(UseLowercase)); 
+				this.OnPropertyChanged(nameof(UseLowercase));
+				CommandManager.InvalidateRequerySuggested();
 			}
 		}
 
@@ -69,7 +77,8 @@ namespace PasswordGenerator.ViewModels
 			set 
 			{ 
 				_password.UseDigits = value; 
-				this.OnPropertyChanged(nameof(UseDigits)); 
+				this.OnPropertyChanged(nameof(UseDigits));
+				CommandManager.InvalidateRequerySuggested();
 			}
 		}
 
@@ -82,7 +91,8 @@ namespace PasswordGenerator.ViewModels
 			set 
 			{ 
 				_password.UseSpecialCharacters = value; 
-				this.OnPropertyChanged(nameof(UseSpecialCharacters)); 
+				this.OnPropertyChanged(nameof(UseSpecialCharacters));
+				CommandManager.InvalidateRequerySuggested();
 			}
 		}
 
@@ -99,7 +109,7 @@ namespace PasswordGenerator.ViewModels
 			}
 		}
 
-		public ICommand GeneratePasswordCommand { get; }
+		public ICommand GeneratePasswordCommand => _generatePasswordCommand;
 
 		public void GeneratePassword()
 		{
