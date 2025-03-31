@@ -8,16 +8,23 @@ using System.Threading.Tasks;
 using PasswordGenerator.Models;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using PasswordGenerator.Services.Interfaces;
 
 namespace PasswordGenerator.ViewModels
 {
 	public class PasswordViewModel : ViewModelBase
 	{
+		private readonly IPasswordGeneratorService _passwordGeneratorService;
+		private readonly IPasswordValidatorService _passwordValidatorService;
 		private Password _password;
 		private RelayCommand _generatePasswordCommand;
 
-		public PasswordViewModel()
+		public PasswordViewModel(IPasswordGeneratorService passwordGeneratorService, 
+			IPasswordValidatorService passwordValidatorService)
 		{
+			_passwordGeneratorService = passwordGeneratorService;
+			_passwordValidatorService = passwordValidatorService;
+
 			_password = new Password();
 			_generatePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => 
 			{
@@ -114,10 +121,12 @@ namespace PasswordGenerator.ViewModels
 		public void GeneratePassword()
 		{
 			do {
-				_password.GeneratePassword();
+				_password.GeneratedPassword = _passwordGeneratorService
+					.GeneratePassword(_password.Length, _password.UseUppercase, _password.UseLowercase,
+					_password.UseDigits, _password.UseSpecialCharacters);
 			}
-			while (_password.HasTooManyDuplicatedChars(_password.GeneratedPassword) ||
-			_password.HasDuplicatedNeighbourChars(_password.GeneratedPassword));
+			while (_passwordValidatorService.HasTooManyOccurences(_password.GeneratedPassword) ||
+			_passwordValidatorService.HasConsecutiveDuplicates(_password.GeneratedPassword));
 			
 			this.OnPropertyChanged(nameof(GeneratedPassword));
 		}

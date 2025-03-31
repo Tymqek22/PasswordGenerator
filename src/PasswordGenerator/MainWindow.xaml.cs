@@ -17,10 +17,10 @@ namespace PasswordGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+		public MainWindow(PasswordViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new PasswordViewModel();
+            DataContext = viewModel;
 		}
     }
 }
