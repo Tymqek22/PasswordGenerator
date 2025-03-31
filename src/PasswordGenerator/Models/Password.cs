@@ -87,6 +87,7 @@ namespace PasswordGenerator.Models
 
 					return true;
 				}
+				earlierChar = password[i];
 			}
 
 			return false;
