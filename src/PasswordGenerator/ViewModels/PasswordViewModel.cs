@@ -122,11 +122,11 @@ namespace PasswordGenerator.ViewModels
 		{
 			do {
 				_password.GeneratedPassword = _passwordGeneratorService
-					.GeneratePassword(_password.Length, _password.UseUppercase, _password.UseLowercase,
-					_password.UseDigits, _password.UseSpecialCharacters);
+					.GeneratePassword(_password);
 			}
 			while (_passwordValidatorService.HasTooManyOccurences(_password.GeneratedPassword) ||
-			_passwordValidatorService.HasConsecutiveDuplicates(_password.GeneratedPassword));
+			_passwordValidatorService.HasConsecutiveDuplicates(_password.GeneratedPassword) ||
+			_passwordValidatorService.IsCommonPassword(_password.GeneratedPassword));
 			
 			this.OnPropertyChanged(nameof(GeneratedPassword));
 		}

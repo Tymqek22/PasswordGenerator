@@ -9,8 +9,8 @@ namespace PasswordGenerator.Services.Interfaces
 	public interface IPasswordValidatorService
 	{
 		bool HasProperLength(string password);
-		Task<bool> IsCommonPassword(string password);
-		bool HasRepeatedSequence(string password,int sequenceLength);
+		bool IsCommonPassword(string password);
+		bool HasRepeatedSequence(string password);
 		bool IsKeyboardPattern(string password);
 		bool HasTooManyOccurences(string password);
 		bool HasConsecutiveDuplicates(string password);

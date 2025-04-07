@@ -1,4 +1,5 @@
-﻿using PasswordGenerator.Services.Interfaces;
+﻿using PasswordGenerator.Models;
+using PasswordGenerator.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace PasswordGenerator.Services
 {
 	public class PasswordGeneratorService : IPasswordGeneratorService
 	{
-		public string GeneratePassword(int length,bool includeUppercase,bool includeLowercase,
-			bool includeDigits,bool includeSpecial)
+		public string GeneratePassword(Password passwordModel)
 		{
 			StringBuilder generatedPassword = new();
 			Random rand = new();
@@ -22,20 +22,20 @@ namespace PasswordGenerator.Services
 
 			StringBuilder charactersBase = new();
 
-			if (includeUppercase) {
+			if (passwordModel.UseUppercase) {
 				charactersBase.Append(uppercase);
 			}
-			if (includeLowercase) {
+			if (passwordModel.UseLowercase) {
 				charactersBase.Append(lowercase);
 			}
-			if (includeDigits) {
+			if (passwordModel.UseDigits) {
 				charactersBase.Append(digits);
 			}
-			if (includeSpecial) {
+			if (passwordModel.UseSpecialCharacters) {
 				charactersBase.Append(special);
 			}
 
-			for (int i = 0; i < length; i++) {
+			for (int i = 0; i < passwordModel.Length; i++) {
 
 				generatedPassword.Append(charactersBase[rand.Next(charactersBase.Length)]);
 			}

@@ -10,25 +10,22 @@ namespace PasswordGenerator.Services
 {
 	public class PasswordValidatorService : IPasswordValidatorService
 	{
+		private readonly IFileReader _fileReaderService;
+
+		public PasswordValidatorService(IFileReader fileReader)
+		{
+			_fileReaderService = fileReader;
+		}
+
 		public bool HasProperLength(string password) => password.Length >= 8 && password.Length <= 50;
 
-		public async Task<bool> IsCommonPassword(string password)
+		public bool IsCommonPassword(string password)
 		{
-			List<string> commonPasswords = new();
+			List<string> commonPasswords = _fileReaderService
+												.GetAllFileLines(@"Files\Common_Passwords.txt")
+												.ToList();
 
-			string path = Path.Combine(Environment.CurrentDirectory,"\\Files\\Common_Passwords.txt");
-			
-			if (File.Exists(path)) {
-
-				commonPasswords = await Task.Run(() => File.ReadAllLines(path).ToList());
-			}
-
-			foreach (var commonPass in commonPasswords) {
-
-				if (commonPass == password) return true;
-			}
-
-			return false;
+			return commonPasswords.Any(pass => pass == password);
 		}
 
 		public bool HasConsecutiveDuplicates(string password)
@@ -47,9 +44,14 @@ namespace PasswordGenerator.Services
 			return false;
 		}
 
-		public bool HasRepeatedSequence(string password,int sequenceLength)
+		public bool HasRepeatedSequence(string password)
 		{
-			throw new NotImplementedException();
+			string sequence = "";
+
+			foreach (var c in password) {
+
+			}
+			return true;
 		}
 
 		public bool HasTooManyOccurences(string password)
@@ -61,33 +63,20 @@ namespace PasswordGenerator.Services
 				.Select(grp => grp.Count())
 				.ToList();
 
-			if (password.Length >= 8 && password.Length <= 16) {
+			int maxDuplicates = (int)(password.Length * 0.2);
 
-				return duplicatesCount.Any(c => c >= 3);
-			}
-			else if (password.Length > 16 && password.Length <= 20) {
+			maxDuplicates = Math.Min(maxDuplicates,7);
 
-				return duplicatesCount.Any(c => c >= 4);
-			}
-			else if (password.Length > 20 && password.Length <= 30) {
-
-				return duplicatesCount.Any(c => c >= 5);
-			}
-			else if (password.Length > 30 && password.Length <= 40) {
-
-				return duplicatesCount.Any(c => c >= 6);
-			}
-			else if (password.Length > 40 && password.Length <= 50) {
-
-				return duplicatesCount.Any(c => c >= 7);
-			}
-
-			return true;
+			return duplicatesCount.Any(c => c > maxDuplicates);
 		}
 
 		public bool IsKeyboardPattern(string password)
 		{
-			throw new NotImplementedException();
+			List<string> keyboardPatterns = _fileReaderService
+												.GetAllFileLines(@"Files\Keyboard_Pattern_Passwords.txt")
+												.ToList();
+
+			return keyboardPatterns.Any(pass => pass == password);
 		}
 	}
 }

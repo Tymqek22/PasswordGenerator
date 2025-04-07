@@ -1,5 +1,4 @@
-﻿using PasswordGenerator.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PasswordGenerator.Services.Interfaces
 {
-	public interface IPasswordGeneratorService
+	public interface IFileReader
 	{
-		string GeneratePassword(Password passwordModel);
+		IEnumerable<string> GetAllFileLines(string path);
 	}
 }
