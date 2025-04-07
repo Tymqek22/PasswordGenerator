@@ -15,7 +15,6 @@ namespace PasswordGenerator.ViewModels
 	public class PasswordViewModel : ViewModelBase
 	{
 		private readonly IPasswordGeneratorService _passwordGeneratorService;
-		private readonly IPasswordValidatorService _passwordValidatorService;
 		private Password _password;
 		private RelayCommand _generatePasswordCommand;
 
@@ -23,13 +22,12 @@ namespace PasswordGenerator.ViewModels
 			IPasswordValidatorService passwordValidatorService)
 		{
 			_passwordGeneratorService = passwordGeneratorService;
-			_passwordValidatorService = passwordValidatorService;
 
 			_password = new Password();
 			_generatePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => 
 			{
 				return (UseUppercase || UseLowercase || UseDigits || UseSpecialCharacters) &&
-				(Length > 0);
+				(Length >= 8  && Length <= 50);
 			});
 		}
 
@@ -120,13 +118,7 @@ namespace PasswordGenerator.ViewModels
 
 		public void GeneratePassword()
 		{
-			do {
-				_password.GeneratedPassword = _passwordGeneratorService
-					.GeneratePassword(_password);
-			}
-			while (_passwordValidatorService.HasTooManyOccurences(_password.GeneratedPassword) ||
-			_passwordValidatorService.HasConsecutiveDuplicates(_password.GeneratedPassword) ||
-			_passwordValidatorService.IsCommonPassword(_password.GeneratedPassword));
+			_password.GeneratedPassword = _passwordGeneratorService.GenerateValidPassword(_password);
 			
 			this.OnPropertyChanged(nameof(GeneratedPassword));
 		}

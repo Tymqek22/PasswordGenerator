@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PasswordGenerator.Enums;
+using PasswordGenerator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +10,9 @@ namespace PasswordGenerator.Services.Interfaces
 {
 	public interface IPasswordValidatorService
 	{
+		List<PasswordValidationResult> Validate(string password,Password rules);
 		bool HasProperLength(string password);
 		bool IsCommonPassword(string password);
-		bool HasRepeatedSequence(string password);
 		bool IsKeyboardPattern(string password);
 		bool HasTooManyOccurences(string password);
 		bool HasConsecutiveDuplicates(string password);

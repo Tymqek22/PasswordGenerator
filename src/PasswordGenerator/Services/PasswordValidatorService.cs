@@ -1,4 +1,6 @@
-﻿using PasswordGenerator.Services.Interfaces;
+﻿using PasswordGenerator.Enums;
+using PasswordGenerator.Models;
+using PasswordGenerator.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +17,38 @@ namespace PasswordGenerator.Services
 		public PasswordValidatorService(IFileReader fileReader)
 		{
 			_fileReaderService = fileReader;
+		}
+
+		public List<PasswordValidationResult> Validate(string password, Password rules)
+		{
+			var validationResults = new List<PasswordValidationResult>();
+
+			if (this.HasProperLength(password))
+				validationResults.Add(PasswordValidationResult.Success);
+			else
+				validationResults.Add(PasswordValidationResult.WrongLength);
+
+			if (this.IsCommonPassword(password))
+				validationResults.Add(PasswordValidationResult.CommonPassword);
+			else
+				validationResults.Add(PasswordValidationResult.Success);
+
+			if (this.IsKeyboardPattern(password))
+				validationResults.Add(PasswordValidationResult.KeyboardPattern);
+			else
+				validationResults.Add(PasswordValidationResult.Success);
+
+			if (this.HasTooManyOccurences(password))
+				validationResults.Add(PasswordValidationResult.TooManyOccurences);
+			else
+				validationResults.Add(PasswordValidationResult.Success);
+
+			if (this.HasConsecutiveDuplicates(password))
+				validationResults.Add(PasswordValidationResult.ConsecutiveDuplicates);
+			else
+				validationResults.Add(PasswordValidationResult.Success);
+
+			return validationResults;
 		}
 
 		public bool HasProperLength(string password) => password.Length >= 8 && password.Length <= 50;
@@ -42,16 +76,6 @@ namespace PasswordGenerator.Services
 			}
 
 			return false;
-		}
-
-		public bool HasRepeatedSequence(string password)
-		{
-			string sequence = "";
-
-			foreach (var c in password) {
-
-			}
-			return true;
 		}
 
 		public bool HasTooManyOccurences(string password)

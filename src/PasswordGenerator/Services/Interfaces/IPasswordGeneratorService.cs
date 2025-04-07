@@ -1,4 +1,5 @@
-﻿using PasswordGenerator.Models;
+﻿using PasswordGenerator.Enums;
+using PasswordGenerator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace PasswordGenerator.Services.Interfaces
 {
 	public interface IPasswordGeneratorService
 	{
-		string GeneratePassword(Password passwordModel);
+		string GenerateInitialPassword(Password passwordModel);
+		string GenerateValidPassword(Password rules);
+		string Fix(string password, List<PasswordValidationResult> results, Password rules);
+		string ReplaceMostCommonOccurences(string password,Password rules);
 	}
 }
