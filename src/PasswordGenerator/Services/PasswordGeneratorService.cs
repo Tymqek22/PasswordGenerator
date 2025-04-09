@@ -19,30 +19,36 @@ namespace PasswordGenerator.Services
 			_validatorService = validatorService;
 		}
 
-		public string GenerateInitialPassword(Password passwordModel)
+		private string BulidCharatersBase(Password rules)
 		{
-			StringBuilder generatedPassword = new();
-			Random rand = new();
+			StringBuilder charactersBase = new();
 
 			string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			string lowercase = "abcdefghijklmnopqrstuvwxyz";
 			string special = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}";
 			string digits = "0123456789";
 
-			StringBuilder charactersBase = new();
-
-			if (passwordModel.UseUppercase) {
+			if (rules.UseUppercase)
 				charactersBase.Append(uppercase);
-			}
-			if (passwordModel.UseLowercase) {
+
+			if (rules.UseLowercase)
 				charactersBase.Append(lowercase);
-			}
-			if (passwordModel.UseDigits) {
+
+			if (rules.UseDigits)
 				charactersBase.Append(digits);
-			}
-			if (passwordModel.UseSpecialCharacters) {
+
+			if (rules.UseSpecialCharacters)
 				charactersBase.Append(special);
-			}
+
+			return charactersBase.ToString();
+		}
+
+		public string GenerateInitialPassword(Password passwordModel)
+		{
+			StringBuilder generatedPassword = new();
+			Random rand = new();
+
+			string charactersBase = this.BulidCharatersBase(passwordModel);
 
 			for (int i = 0; i < passwordModel.Length; i++) {
 
@@ -59,14 +65,14 @@ namespace PasswordGenerator.Services
 
 			while (issues.Any(iss => iss != PasswordValidationResult.Success)) {
 
-				password = this.Fix(password,issues,rules);
+				this.Fix(ref password,issues,rules);
 				issues = _validatorService.Validate(password,rules);
 			}
 
 			return password;
 		}
 
-		public string Fix(string password, List<PasswordValidationResult> results, Password rules)
+		public void Fix(ref string password, List<PasswordValidationResult> results, Password rules)
 		{
 			foreach (var result in results) {
 
@@ -88,8 +94,6 @@ namespace PasswordGenerator.Services
 						break;
 				}
 			}
-
-			return password;
 		}
 
 		public string ReplaceMostCommonOccurences(string password, Password rules)
@@ -107,25 +111,7 @@ namespace PasswordGenerator.Services
 			int charsToReplace = occurences / 2;
 			int charsReplaced = 0;
 
-			string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			string lowercase = "abcdefghijklmnopqrstuvwxyz";
-			string special = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}";
-			string digits = "0123456789";
-
-			StringBuilder charactersBase = new();
-
-			if (rules.UseUppercase) {
-				charactersBase.Append(uppercase);
-			}
-			if (rules.UseLowercase) {
-				charactersBase.Append(lowercase);
-			}
-			if (rules.UseDigits) {
-				charactersBase.Append(digits);
-			}
-			if (rules.UseSpecialCharacters) {
-				charactersBase.Append(special);
-			}
+			string charactersBase = this.BulidCharatersBase(rules);
 
 			for (int i = 0; (i < password.Length) && (charsReplaced < charsToReplace); i++) {
 
