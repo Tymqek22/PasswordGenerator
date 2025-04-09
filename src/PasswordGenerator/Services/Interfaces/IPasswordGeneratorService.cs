@@ -14,6 +14,6 @@ namespace PasswordGenerator.Services.Interfaces
 		string GenerateValidPassword(Password rules);
 		void Fix(ref string password, List<PasswordValidationResult> results, Password rules);
 		string ReplaceMostCommonOccurences(string password,Password rules);
-
+		string ReplaceConsecutiveCharacters(string password);
 	}
 }
