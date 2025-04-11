@@ -1,5 +1,6 @@
 ﻿using PasswordGenerator.Stores;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace PasswordGenerator.ViewModels
 {

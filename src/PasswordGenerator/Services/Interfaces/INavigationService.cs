@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PasswordGenerator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace PasswordGenerator.Services.Interfaces
 {
 	public interface INavigationService
 	{
-		void Navigate();
+		void NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
 	}
 }

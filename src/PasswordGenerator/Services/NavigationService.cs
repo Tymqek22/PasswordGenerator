@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace PasswordGenerator.Services
 {
-	internal class NavigationService : INavigationService
+	public class NavigationService : INavigationService
 	{
 		private readonly NavigationStore _navigationStore;
-		private readonly Func<ViewModelBase> _createViewModel;
+		private readonly Func<Type,ViewModelBase> _createViewModel;
 
-		public NavigationService(NavigationStore navigationStore,Func<ViewModelBase> createViewModel)
+		public NavigationService(NavigationStore navigationStore,Func<Type,ViewModelBase> createViewModel)
 		{
 			_navigationStore = navigationStore;
 			_createViewModel = createViewModel;
 		}
 
-		public void Navigate()
+		public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
 		{
-			_navigationStore.CurrentViewModel = _createViewModel();
+			_navigationStore.CurrentViewModel = _createViewModel(typeof(TViewModel));
 		}
 	}
 }

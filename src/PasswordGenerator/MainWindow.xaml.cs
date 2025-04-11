@@ -17,7 +17,7 @@ namespace PasswordGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
-		public MainWindow(GeneratorViewModel viewModel)
+		public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
