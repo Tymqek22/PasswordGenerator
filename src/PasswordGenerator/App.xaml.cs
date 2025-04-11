@@ -28,6 +28,8 @@ namespace PasswordGenerator
             services.AddSingleton<IPasswordGeneratorService,PasswordGeneratorService>();
             services.AddSingleton<IPasswordValidatorService,PasswordValidatorService>();
             services.AddScoped<IFileReader,FileReader>();
+            services.AddSingleton<INavigationService,NavigationService>();
+
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<GeneratorViewModel>();
