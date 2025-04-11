@@ -12,13 +12,13 @@ using PasswordGenerator.Services.Interfaces;
 
 namespace PasswordGenerator.ViewModels
 {
-	public class PasswordViewModel : ViewModelBase
+	public class GeneratorViewModel : ViewModelBase
 	{
 		private readonly IPasswordGeneratorService _passwordGeneratorService;
 		private Password _password;
 		private RelayCommand _generatePasswordCommand;
 
-		public PasswordViewModel(IPasswordGeneratorService passwordGeneratorService, 
+		public GeneratorViewModel(IPasswordGeneratorService passwordGeneratorService, 
 			IPasswordValidatorService passwordValidatorService)
 		{
 			_passwordGeneratorService = passwordGeneratorService;

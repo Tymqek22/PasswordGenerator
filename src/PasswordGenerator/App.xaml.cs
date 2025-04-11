@@ -30,7 +30,7 @@ namespace PasswordGenerator
             services.AddScoped<IFileReader,FileReader>();
 
             services.AddSingleton<MainWindow>();
-            services.AddSingleton<PasswordViewModel>();
+            services.AddSingleton<GeneratorViewModel>();
         }
 
 		protected override void OnStartup(StartupEventArgs e)

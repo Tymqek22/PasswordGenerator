@@ -78,11 +78,7 @@ namespace PasswordGenerator.Services
 
 				switch (result) {
 					case PasswordValidationResult.WrongLength:
-						password = this.GenerateInitialPassword(rules);
-						break;
 					case PasswordValidationResult.CommonPassword:
-						password = this.GenerateInitialPassword(rules);
-						break;
 					case PasswordValidationResult.KeyboardPattern:
 						password = this.GenerateInitialPassword(rules);
 						break;
