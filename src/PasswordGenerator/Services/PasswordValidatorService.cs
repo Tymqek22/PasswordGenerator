@@ -19,7 +19,7 @@ namespace PasswordGenerator.Services
 			_fileReaderService = fileReader;
 		}
 
-		public List<PasswordValidationResult> Validate(string password, Password rules)
+		public List<PasswordValidationResult> Validate(string password)
 		{
 			var validationResults = new List<PasswordValidationResult>();
 
@@ -52,6 +52,14 @@ namespace PasswordGenerator.Services
 		}
 
 		public bool HasProperLength(string password) => password.Length >= 8 && password.Length <= 50;
+
+		public bool HasUppercase(string password) => password.Any(c => c >= 65 && c <= 90);
+
+		public bool HasLowercase(string password) => password.Any(c => c >= 97 && c <= 122);
+
+		public bool HasDigits(string password) => password.Any(c => c >= 48 && c <= 57);
+
+		public bool HasSpecialChars(string password) => password.Any(c => !char.IsLetterOrDigit(c));
 
 		public bool IsCommonPassword(string password)
 		{

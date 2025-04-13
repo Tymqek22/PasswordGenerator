@@ -61,12 +61,12 @@ namespace PasswordGenerator.Services
 		public string GenerateValidPassword(Password rules)
 		{
 			string password = this.GenerateInitialPassword(rules);
-			var issues = _validatorService.Validate(password,rules);
+			var issues = _validatorService.Validate(password);
 
 			while (issues.Any(iss => iss != PasswordValidationResult.Success)) {
 
 				this.Fix(ref password,issues,rules);
-				issues = _validatorService.Validate(password,rules);
+				issues = _validatorService.Validate(password);
 			}
 
 			return password;

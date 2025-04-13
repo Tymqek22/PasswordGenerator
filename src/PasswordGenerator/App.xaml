@@ -11,5 +11,8 @@
         <DataTemplate DataType="{x:Type vms:GeneratorViewModel}">
             <views:GeneratorView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:AnalyzerViewModel}">
+            <views:AnalyzerView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

@@ -20,6 +20,7 @@ namespace PasswordGenerator.ViewModels
 
 		public ICommand GeneratePasswordCommand { get; }
 		public ICommand NavigateToHomeCommand { get; }
+		public ICommand NavigateToAnalyzerCommand { get; }
 
 		public GeneratorViewModel(IPasswordGeneratorService passwordGeneratorService, 
 			IPasswordValidatorService passwordValidatorService, INavigationService navigationService)
@@ -34,7 +35,8 @@ namespace PasswordGenerator.ViewModels
 				(Length >= 8  && Length <= 50);
 			});
 
-			NavigateToHomeCommand = new RelayCommand(execute => navigationService.NavigateTo<HomeViewModel>());
+			NavigateToHomeCommand = new RelayCommand(execute => _navigationService.NavigateTo<HomeViewModel>());
+			NavigateToAnalyzerCommand = new RelayCommand(execute => _navigationService.NavigateTo<AnalyzerViewModel>());
 		}
 
 		public int Length

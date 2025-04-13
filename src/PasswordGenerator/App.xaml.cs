@@ -36,6 +36,7 @@ namespace PasswordGenerator
 
             services.AddTransient<HomeViewModel>();
             services.AddTransient<GeneratorViewModel>();
+			services.AddTransient<AnalyzerViewModel>();
 
 			services.AddSingleton<INavigationService,NavigationService>();
 

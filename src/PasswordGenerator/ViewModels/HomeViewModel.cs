@@ -20,7 +20,7 @@ namespace PasswordGenerator.ViewModels
 		{
 			_navigationService = navigationService;
 			NavigateToGeneratorCommand = new RelayCommand(execute => _navigationService.NavigateTo<GeneratorViewModel>());
-			NavigateToAnalyzerCommand = new RelayCommand(execute => _navigationService.NavigateTo<GeneratorViewModel>());
+			NavigateToAnalyzerCommand = new RelayCommand(execute => _navigationService.NavigateTo<AnalyzerViewModel>());
 		}
 	}
 }
