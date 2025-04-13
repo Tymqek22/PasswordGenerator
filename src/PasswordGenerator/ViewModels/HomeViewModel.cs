@@ -14,11 +14,13 @@ namespace PasswordGenerator.ViewModels
 		private readonly INavigationService _navigationService;
 
 		public ICommand NavigateToGeneratorCommand { get; }
+		public ICommand NavigateToAnalyzerCommand { get; }
 
 		public HomeViewModel(INavigationService navigationService)
 		{
 			_navigationService = navigationService;
 			NavigateToGeneratorCommand = new RelayCommand(execute => _navigationService.NavigateTo<GeneratorViewModel>());
+			NavigateToAnalyzerCommand = new RelayCommand(execute => _navigationService.NavigateTo<GeneratorViewModel>());
 		}
 	}
 }

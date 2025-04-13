@@ -10,7 +10,7 @@
         
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Background="#EEE" Height="50" HorizontalAlignment="Center">
             <Button Content="🔐 Generator" Command="{Binding NavigateToGeneratorCommand}" Margin="10" Padding="10,5"/>
-            
+            <Button Content="🔎 Analyzer" Command="{Binding NavigateToAnalyzerCommand}" Margin="10" Padding="10,5"/>
         </StackPanel>
     </Grid>
 </UserControl>

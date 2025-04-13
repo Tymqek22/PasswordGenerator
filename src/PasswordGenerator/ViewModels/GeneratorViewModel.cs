@@ -15,20 +15,26 @@ namespace PasswordGenerator.ViewModels
 	public class GeneratorViewModel : ViewModelBase
 	{
 		private readonly IPasswordGeneratorService _passwordGeneratorService;
+		private readonly INavigationService _navigationService;
 		private Password _password;
-		private RelayCommand _generatePasswordCommand;
+
+		public ICommand GeneratePasswordCommand { get; }
+		public ICommand NavigateToHomeCommand { get; }
 
 		public GeneratorViewModel(IPasswordGeneratorService passwordGeneratorService, 
-			IPasswordValidatorService passwordValidatorService)
+			IPasswordValidatorService passwordValidatorService, INavigationService navigationService)
 		{
 			_passwordGeneratorService = passwordGeneratorService;
+			_navigationService = navigationService;
 
 			_password = new Password();
-			_generatePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => 
+			GeneratePasswordCommand = new RelayCommand(execute => GeneratePassword(), canExecute => 
 			{
 				return (UseUppercase || UseLowercase || UseDigits || UseSpecialCharacters) &&
 				(Length >= 8  && Length <= 50);
 			});
+
+			NavigateToHomeCommand = new RelayCommand(execute => navigationService.NavigateTo<HomeViewModel>());
 		}
 
 		public int Length
@@ -113,8 +119,6 @@ namespace PasswordGenerator.ViewModels
 				this.OnPropertyChanged(nameof(GeneratedPassword)); 
 			}
 		}
-
-		public ICommand GeneratePasswordCommand => _generatePasswordCommand;
 
 		public void GeneratePassword()
 		{
