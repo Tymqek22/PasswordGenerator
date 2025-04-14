@@ -51,6 +51,39 @@ namespace PasswordGenerator.Services
 			return validationResults;
 		}
 
+		public int CalculateStrengthScore(string password)
+		{
+			int score = 0;
+
+			if (string.IsNullOrWhiteSpace(password))
+				return 0;
+
+			if (this.HasProperLength(password)) score+=30;
+			if (password.Length >= 15) score += 10;
+			if (this.HasUppercase(password)) score+=10;
+			if (this.HasLowercase(password)) score+=10;
+			if (this.HasDigits(password)) score+=10;
+			if (this.HasSpecialChars(password)) score+=10;
+			if (!this.HasTooManyOccurences(password)) score+=10;
+			if (!this.HasConsecutiveDuplicates(password)) score+=10;
+			if (this.IsCommonPassword(password) || this.IsKeyboardPattern(password)) score = 0;
+
+			return score;
+		}
+
+		public string CalculateStrength(int score)
+		{
+			return score switch
+			{
+				<= 40 => "Weak",
+				50 => "Medium",
+				60 => "Medium",
+				70 => "Medium",
+				80 => "Medium",
+				> 80 => "Strong"
+			};
+		}
+
 		public bool HasProperLength(string password) => password.Length >= 8 && password.Length <= 50;
 
 		public bool HasUppercase(string password) => password.Any(c => c >= 65 && c <= 90);

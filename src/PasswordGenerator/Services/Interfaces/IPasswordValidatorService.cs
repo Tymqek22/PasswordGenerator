@@ -11,6 +11,8 @@ namespace PasswordGenerator.Services.Interfaces
 	public interface IPasswordValidatorService
 	{
 		List<PasswordValidationResult> Validate(string password);
+		int CalculateStrengthScore(string password);
+		string CalculateStrength(int score);
 		bool HasProperLength(string password);
 		bool HasUppercase(string password);
 		bool HasLowercase(string password);

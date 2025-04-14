@@ -18,7 +18,10 @@
         </Grid.RowDefinitions>
 
         <TextBox Grid.Row="0" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasswordBox" FontSize="14" Padding="5" HorizontalAlignment="Stretch" />
-        <TextBox Grid.Row="1" Text="{Binding Strength}" Name="Strength" IsReadOnly="True" FontSize="14" Padding="5" HorizontalAlignment="Center" Width="100" Margin="10"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <ProgressBar Maximum="100" Width="150" Height="20" Value="{Binding StrengthScore}"/>
+            <TextBlock Text="{Binding Strength}" Margin="10,0,0,0" FontWeight="Bold"/>
+        </StackPanel>
 
 
 

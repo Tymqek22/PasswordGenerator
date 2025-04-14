@@ -47,16 +47,30 @@ namespace PasswordGenerator.ViewModels
 			}
 		}
 
-		private string _strenght;
+		private int _strenghtScore;
+		public int StrengthScore
+		{
+			get
+			{
+				return _strenghtScore;
+			}
+			set
+			{
+				_strenghtScore = value;
+				this.OnPropertyChanged(nameof(StrengthScore));
+			}
+		}
+
+		private string _strength;
 		public string Strength
 		{
 			get
 			{
-				return _strenght;
+				return _strength;
 			}
 			set
 			{
-				_strenght = value;
+				_strength = value;
 				this.OnPropertyChanged(nameof(Strength));
 			}
 		}
@@ -69,12 +83,8 @@ namespace PasswordGenerator.ViewModels
 			_password.UseDigits = _validatorService.HasDigits(password);
 			_password.UseSpecialCharacters = _validatorService.HasSpecialChars(password);
 
-			List<PasswordValidationResult> results = _validatorService.Validate(password);
-
-			if (results.Any(r => r != PasswordValidationResult.Success))
-				Strength = "Weak";
-			else
-				Strength = "Strong";
+			StrengthScore = _validatorService.CalculateStrengthScore(password);
+			Strength = _validatorService.CalculateStrength(StrengthScore);
 		}
 	}
 }
