@@ -83,7 +83,7 @@ namespace PasswordGenerator.Services
 						password = this.GenerateInitialPassword(rules);
 						break;
 					case PasswordValidationResult.ConsecutiveDuplicates:
-						password = this.ReplaceConsecutiveCharacters(password);
+						password = this.ReplaceConsecutiveCharacters(password,rules);
 						break;
 					case PasswordValidationResult.TooManyOccurences:
 						password = this.ReplaceMostCommonOccurences(password,rules);
@@ -94,7 +94,7 @@ namespace PasswordGenerator.Services
 
 		public string ReplaceMostCommonOccurences(string password, Password rules)
 		{
-			var passwordList = password.ToList();
+			var passwordList = password.ToCharArray();
 			Random rand = new();
 
 			var mostCommonChar = passwordList
@@ -118,14 +118,16 @@ namespace PasswordGenerator.Services
 				}
 			}
 
-			return passwordList.ToString();
+			return new string(passwordList);
 		}
 
-		public string ReplaceConsecutiveCharacters(string password)
+		public string ReplaceConsecutiveCharacters(string password, Password rules)
 		{
 			Random rand = new();
 
 			char[] passwordChars = password.ToCharArray();
+
+			var characterBase = this.BulidCharatersBase(rules);
 
 			for (int i = 0; i < passwordChars.Length - 1; i++) {
 
@@ -134,7 +136,7 @@ namespace PasswordGenerator.Services
 					char newChar;
 
 					do {
-						newChar = (char)rand.Next(33,127);
+						newChar = characterBase[rand.Next(characterBase.Length)];
 
 					} while (newChar == passwordChars[i]);
 
